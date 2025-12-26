@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
-<div class="booking-container py-5 bg-light">
-  <div class="container">
+<div class="booking-container">
+  <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <!-- Header -->
@@ -8,18 +8,21 @@
           <h1 class="display-5 fw-bold">Complete Your Booking</h1>
           <p class="lead text-muted">Just a few more details to secure your insurance</p>
         </div>
-       
-        <div class="row g-4 justify-content-center" >
+
+        <div class="row g-4">
           <!-- Left Column - Form -->
-         <h3 class="mb-4">Personal Information</h3>
-          <div class="col-lg-6" >
-            <div class="booking-card p-4 rounded shadow-sm bg-white" >
+          <div class="col-lg-7">
+            <div class="booking-card">
+              <h3 class="mb-4">Personal Information</h3>
 
               <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
                 <!-- Name -->
                 <div class="mb-3">
                   <label for="name" class="form-label">Full Name *</label>
-                  <input type="text" class="form-control" id="name"
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="name"
                     formControlName="name"
                     [class.is-invalid]="submitted && f['name'].errors"
                     placeholder="Enter your full name">
@@ -33,7 +36,10 @@
                 <!-- City -->
                 <div class="mb-3">
                   <label for="city" class="form-label">City *</label>
-                  <input type="text" class="form-control" id="city"
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="city"
                     formControlName="city"
                     [class.is-invalid]="submitted && f['city'].errors"
                     placeholder="Enter your city">
@@ -47,10 +53,14 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="phone" class="form-label">Phone Number *</label>
-                    <input type="tel" class="form-control" id="phone"
+                    <input 
+                      type="tel" 
+                      class="form-control" 
+                      id="phone"
                       formControlName="phone"
                       [class.is-invalid]="submitted && f['phone'].errors"
-                      placeholder="10 digit number" maxlength="10">
+                      placeholder="10 digit number"
+                      maxlength="10">
                     <div class="invalid-feedback" *ngIf="submitted && f['phone'].errors">
                       <span *ngIf="f['phone'].errors['required']">Phone is required</span>
                       <span *ngIf="f['phone'].errors['pattern']">Phone must be 10 digits</span>
@@ -59,10 +69,15 @@
 
                   <div class="col-md-6 mb-3">
                     <label for="age" class="form-label">Age *</label>
-                    <input type="number" class="form-control" id="age"
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      id="age"
                       formControlName="age"
                       [class.is-invalid]="submitted && f['age'].errors"
-                      placeholder="Your age" min="18" max="100">
+                      placeholder="Your age"
+                      min="18"
+                      max="100">
                     <div class="invalid-feedback" *ngIf="submitted && f['age'].errors">
                       <span *ngIf="f['age'].errors['required']">Age is required</span>
                       <span *ngIf="f['age'].errors['min'] || f['age'].errors['max']">Age must be between 18 and 100</span>
@@ -73,7 +88,10 @@
                 <!-- Email -->
                 <div class="mb-4">
                   <label for="email" class="form-label">Email Address *</label>
-                  <input type="email" class="form-control" id="email"
+                  <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email"
                     formControlName="email"
                     [class.is-invalid]="submitted && f['email'].errors"
                     placeholder="your.email@example.com">
@@ -88,7 +106,9 @@
                 <!-- Payment Mode -->
                 <div class="mb-3">
                   <label for="paymentMode" class="form-label">Payment Mode *</label>
-                  <select class="form-select" id="paymentMode"
+                  <select 
+                    class="form-select" 
+                    id="paymentMode"
                     formControlName="paymentMode"
                     [class.is-invalid]="submitted && f['paymentMode'].errors">
                     <option value="">Select payment mode</option>
@@ -102,11 +122,15 @@
                 <!-- Card Number -->
                 <div class="mb-3">
                   <label for="cardNumber" class="form-label">Card Number *</label>
-                  <input type="text" class="form-control" id="cardNumber"
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="cardNumber"
                     formControlName="cardNumber"
                     [class.is-invalid]="submitted && f['cardNumber'].errors"
                     placeholder="XXXX-XXXX-XXXX"
-                    (input)="formatCardNumber($event)" maxlength="14">
+                    (input)="formatCardNumber($event)"
+                    maxlength="14">
                   <small class="form-text text-muted">Format: 1234-5678-9012</small>
                   <div class="invalid-feedback" *ngIf="submitted && f['cardNumber'].errors">
                     <span *ngIf="f['cardNumber'].errors['required']">Card number is required</span>
@@ -117,7 +141,9 @@
                 <!-- Payment Frequency -->
                 <div class="mb-4">
                   <label for="paymentFreq" class="form-label">Payment Frequency *</label>
-                  <select class="form-select" id="paymentFreq"
+                  <select 
+                    class="form-select" 
+                    id="paymentFreq"
                     formControlName="paymentFreq"
                     [class.is-invalid]="submitted && f['paymentFreq'].errors">
                     <option value="">Select payment frequency</option>
@@ -130,11 +156,17 @@
 
                 <!-- Buttons -->
                 <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
-                  <button type="button" class="btn btn-outline-secondary btn-lg"
-                    (click)="cancel()" [disabled]="loading">
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary btn-lg"
+                    (click)="cancel()"
+                    [disabled]="loading">
                     <i class="bi bi-x-circle"></i> Cancel
                   </button>
-                  <button type="submit" class="btn btn-success btn-lg" [disabled]="loading">
+                  <button 
+                    type="submit" 
+                    class="btn btn-success btn-lg"
+                    [disabled]="loading">
                     <span *ngIf="!loading">
                       <i class="bi bi-check-circle"></i> Confirm Booking
                     </span>
@@ -147,53 +179,59 @@
               </form>
             </div>
           </div>
-          </div>
-         
+
           <!-- Right Column - Summary -->
-          <div class="col-lg-4">
-            <div class="summary-card p-4 rounded shadow-sm bg-white sticky-top">
+          <div class="col-lg-5">
+            <div class="summary-card sticky-top">
               <h3 class="mb-4">Booking Summary</h3>
-              <div class="plan-summary mb-3">
+
+              <div class="plan-summary">
                 <h5 class="text-primary">{{ plan?.planName }}</h5>
                 <p class="text-muted small">{{ plan?.description }}</p>
               </div>
-              <hr>
-              <div class="summary-details mb-3">
-                <div class="summary-row d-flex justify-content-between">
+
+              <div class="divider my-4"></div>
+
+              <div class="summary-details">
+                <div class="summary-row">
                   <span>Base Amount:</span>
                   <span class="fw-bold">₹{{ plan?.baseAmt }}</span>
                 </div>
-                <div class="summary-row d-flex justify-content-between">
+                <div class="summary-row">
                   <span>Validity:</span>
                   <span class="fw-bold">{{ plan?.validity }} days</span>
                 </div>
-                <div class="summary-row d-flex justify-content-between">
+                <div class="summary-row">
                   <span>Coverage Type:</span>
                   <span class="fw-bold">Individual</span>
                 </div>
               </div>
-              <hr>
-              <div class="premium-summary mb-3">
-                <div class="premium-row d-flex justify-content-between">
+
+              <div class="divider my-4"></div>
+
+              <div class="premium-summary">
+                <div class="premium-row">
                   <span class="premium-label">Your Premium Amount</span>
-                  <span class="premium-amount text-success fw-bold">₹{{ premium }}</span>
+                  <span class="premium-amount">₹{{ premium }}</span>
                 </div>
                 <p class="small text-muted mt-2 mb-0">
                   <i class="bi bi-info-circle"></i>
                   Premium calculated based on your health profile
                 </p>
               </div>
+
               <div class="alert alert-success mt-4">
                 <i class="bi bi-shield-check"></i>
                 <strong>Instant Activation!</strong>
                 <p class="mb-0 small">Your insurance will be active immediately after payment</p>
               </div>
+
               <div class="features-list mt-4">
-                <div class="feature-item mb-2">
+                <div class="feature-item">
                   <i class="bi bi-check-circle-fill text-success"></i>
                   <span>No Waiting Period</span>
                 </div>
-                <div class="feature-item mb-2">
+                <div class="feature-item">
                   <i class="bi bi-check-circle-fill text-success"></i>
                   <span>24/7 Customer Support</span>
                 </div>
@@ -208,4 +246,4 @@
       </div>
     </div>
   </div>
-
+</div>

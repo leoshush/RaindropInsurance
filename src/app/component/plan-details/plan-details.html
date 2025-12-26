@@ -16,9 +16,12 @@
     </div>
 
     <!-- Plan Details -->
-    <div *ngIf="plan() && !loading() && questionsCompleted()">
+    <div *ngIf="plan() && !loading()">
       <!-- Back Button -->
-    
+      <button class="btn btn-outline-secondary mb-4" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to Plans
+      </button>
+
       <div class="row">
         <!-- Left Column - Plan Info -->
         <div class="col-lg-8">
@@ -44,7 +47,28 @@
                     <p>{{ plan()?.validity }} Days</p>
                   </div>
                 </div>
-                
+                <div class="feature-box">
+                  <i class="bi bi-clock"></i>
+                  <div>
+                    <strong>Waiting Period</strong>
+                    <p>No Waiting Period</p>
+                  </div>
+                </div>
+                <div class="feature-box">
+                  <i class="bi bi-ambulance"></i>
+                  <div>
+                    <strong>Emergency Services</strong>
+                    <p>24/7 Ambulance</p>
+                  </div>
+                </div>
+                <div class="feature-box">
+                  <i class="bi bi-hospital"></i>
+                  <div>
+                    <strong>Hospital Network</strong>
+                    <p>5000+ Hospitals</p>
+                  </div>
+                </div>
+              </div>
 
               <div class="alert alert-info mt-4">
                 <i class="bi bi-info-circle-fill me-2"></i>
@@ -59,14 +83,14 @@
           <div class="action-card sticky-top">
             <h4 class="mb-4">Get Your Quote</h4>
             
-            <div *ngIf="!questionsCompleted">
+            <div *ngIf="!questionsCompleted()">
               <p class="text-muted mb-4">Answer a few questions to calculate your personalized premium</p>
               <button class="btn btn-primary btn-lg w-100" (click)="startQuestionnaire()">
                 <i class="bi bi-calculator"></i> Calculate Premium
               </button>
             </div>
 
-            <div *ngIf="questionsCompleted" class="premium-result">
+            <div *ngIf="questionsCompleted()" class="premium-result">
               <div class="premium-badge">
                 <span class="label">Your Premium</span>
                 <span class="amount">₹{{ calculatedPremium() }}</span>
@@ -109,95 +133,70 @@
   </div>
 
   <!-- Question Modal -->
-  
+  <div class="modal fade" id="questionModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">
+            Question {{ currentQuestion() + 1 }} of {{ questions.length }}
+          </h5>
+        </div>
+        <div class="modal-body p-4">
+          <div class="progress mb-4" style="height: 5px;">
+            <div class="progress-bar" [style.width.%]="((currentQuestion() + 1) / questions.length) * 100"></div>
+          </div>
 
+          <h5 class="mb-4">{{ getCurrentQuestion().question }}</h5>
 
-</div>
+          <!-- Number Input -->
+          <div *ngIf="getCurrentQuestion().type === 'number'">
+            <input 
+              type="number" 
+              class="form-control form-control-lg"
+              [(ngModel)]="tempValue"
+              [placeholder]="getCurrentQuestion().placeholder"
+              [attr.min]="getCurrentQuestion().min"
+              [attr.max]="getCurrentQuestion().max"
+              (keyup.enter)="nextQuestion()">
+            <div *ngIf="validationError" class="text-danger mt-2">
+              <i class="bi bi-exclamation-circle"></i> {{ validationError }}
+            </div>
+          </div>
 
-<div class="modal-backdrop" *ngIf="isQuestionnaireOpen"></div>
-
-<!-- Centered popup -->
-<div
-  class="modal-root"
-  *ngIf="isQuestionnaireOpen"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="questionnaireTitle"
-  tabindex="-1"
-  (keydown.escape)="closeQuestionnaire()"
->
-  <div class="modal-window">
-    <div class="modal-header">
-      <h5 id="questionnaireTitle">Question {{ currentQuestion() + 1 }} of {{ questions.length }}</h5>
-      <button class="close-btn" aria-label="Close" (click)="closeQuestionnaire()">×</button>
-    </div>
-
-    <!-- Body: Questions -->
-    <div class="modal-body" *ngIf="!questionsCompleted()">
-      <div class="progress">Step {{ currentQuestion() + 1 }} of {{ questions.length }}</div>
-
-      <label class="question-label">{{ getCurrentQuestion().question }}</label>
-
-      <!-- Number -->
-      <input
-        *ngIf="getCurrentQuestion().type === 'number'"
-        type="number"
-        class="form-input"
-        [attr.placeholder]="getCurrentQuestion().placeholder"
-        [attr.min]="getCurrentQuestion().min"
-        [attr.max]="getCurrentQuestion().max"
-        [(ngModel)]="tempValue"
-        (keyup.enter)="nextQuestion()"
-      />
-
-      <!-- Boolean -->
-      <div class="boolean-group" *ngIf="getCurrentQuestion().type === 'boolean'">
-        <label class="radio">
-          <input type="radio" name="boolAnswer" value="yes" [(ngModel)]="tempValue" />
-          Yes
-        </label>
-        <label class="radio">
-          <input type="radio" name="boolAnswer" value="no" [(ngModel)]="tempValue" />
-          No
-        </label>
+          <!-- Boolean Input -->
+          <div *ngIf="getCurrentQuestion().type === 'boolean'" class="d-grid gap-3">
+            <button 
+              class="btn btn-outline-primary btn-lg"
+              [class.active]="tempValue === 'yes'"
+              (click)="tempValue = 'yes'">
+              <i class="bi bi-check-circle"></i> Yes
+            </button>
+            <button 
+              class="btn btn-outline-primary btn-lg"
+              [class.active]="tempValue === 'no'"
+              (click)="tempValue = 'no'">
+              <i class="bi bi-x-circle"></i> No
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button 
+            type="button" 
+            class="btn btn-secondary" 
+            (click)="previousQuestion()"
+            [disabled]="currentQuestion() === 0">
+            <i class="bi bi-arrow-left"></i> Previous
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-primary" 
+            (click)="nextQuestion()"
+            [disabled]="!tempValue">
+            {{ currentQuestion() < questions.length - 1 ? 'Next' : 'Calculate' }}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
       </div>
-
-      <div class="error" *ngIf="validationError">{{ validationError }}</div>
-    </div>
-
-    <!-- Body: Summary -->
-    <div class="modal-body" *ngIf="questionsCompleted()">
-      <h6 class="mb-2">Summary</h6>
-      <ul class="summary">
-        <li>Age: {{ userHealthData.age }}</li>
-        <li>Earnings: ₹{{ userHealthData.earnings }}</li>
-        <li>Pre-existing conditions: {{ userHealthData.hasPreExistingConditions ? 'Yes' : 'No' }}</li>
-        <li>Smoker: {{ userHealthData.isSmoker ? 'Yes' : 'No' }}</li>
-        <li>Chronic diseases: {{ userHealthData.hasChronicDiseases ? 'Yes' : 'No' }}</li>
-        <li>Exercises regularly: {{ userHealthData.exerciseRegularly ? 'Yes' : 'No' }}</li>
-      </ul>
-
-      <div class="premium-box">
-        <div class="label">Calculated Premium</div>
-        <div class="value">₹{{ calculatedPremium() }}</div>
-      </div>
-    </div>
-
-    <!-- Footer: actions -->
-    <div class="modal-footer" *ngIf="!questionsCompleted()">
-      <button class="btn secondary" (click)="previousQuestion()" [disabled]="currentQuestion() === 0">Previous</button>
-      <button
-        class="btn primary"
-        (click)="nextQuestion()"
-        [disabled]="getCurrentQuestion().type === 'number' ? !tempValue : (tempValue !== 'yes' && tempValue !== 'no')"
-      >
-        {{ currentQuestion() < questions.length - 1 ? 'Next' : 'Calculate' }}
-      </button>
-    </div>
-
-    <div class="modal-footer" *ngIf="questionsCompleted()">
-      <button class="btn secondary" (click)="closeQuestionnaire()">Close</button>
-      <button class="btn primary" (click)="proceedToBooking()">Proceed to Booking</button>
     </div>
   </div>
 </div>
