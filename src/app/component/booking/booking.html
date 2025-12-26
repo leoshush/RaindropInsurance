@@ -1,0 +1,211 @@
+<app-navbar></app-navbar>
+<div class="booking-container py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <!-- Header -->
+        <div class="text-center mb-5">
+          <h1 class="display-5 fw-bold">Complete Your Booking</h1>
+          <p class="lead text-muted">Just a few more details to secure your insurance</p>
+        </div>
+       
+        <div class="row g-4 justify-content-center" >
+          <!-- Left Column - Form -->
+         <h3 class="mb-4">Personal Information</h3>
+          <div class="col-lg-6" >
+            <div class="booking-card p-4 rounded shadow-sm bg-white" >
+
+              <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+                <!-- Name -->
+                <div class="mb-3">
+                  <label for="name" class="form-label">Full Name *</label>
+                  <input type="text" class="form-control" id="name"
+                    formControlName="name"
+                    [class.is-invalid]="submitted && f['name'].errors"
+                    placeholder="Enter your full name">
+                  <div class="invalid-feedback" *ngIf="submitted && f['name'].errors">
+                    <span *ngIf="f['name'].errors['required']">Name is required</span>
+                    <span *ngIf="f['name'].errors['minlength']">Name must be at least 2 characters</span>
+                    <span *ngIf="f['name'].errors['pattern']">Name can only contain letters</span>
+                  </div>
+                </div>
+
+                <!-- City -->
+                <div class="mb-3">
+                  <label for="city" class="form-label">City *</label>
+                  <input type="text" class="form-control" id="city"
+                    formControlName="city"
+                    [class.is-invalid]="submitted && f['city'].errors"
+                    placeholder="Enter your city">
+                  <div class="invalid-feedback" *ngIf="submitted && f['city'].errors">
+                    <span *ngIf="f['city'].errors['required']">City is required</span>
+                    <span *ngIf="f['city'].errors['minlength']">City must be at least 2 characters</span>
+                  </div>
+                </div>
+
+                <!-- Phone and Age Row -->
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="phone" class="form-label">Phone Number *</label>
+                    <input type="tel" class="form-control" id="phone"
+                      formControlName="phone"
+                      [class.is-invalid]="submitted && f['phone'].errors"
+                      placeholder="10 digit number" maxlength="10">
+                    <div class="invalid-feedback" *ngIf="submitted && f['phone'].errors">
+                      <span *ngIf="f['phone'].errors['required']">Phone is required</span>
+                      <span *ngIf="f['phone'].errors['pattern']">Phone must be 10 digits</span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="age" class="form-label">Age *</label>
+                    <input type="number" class="form-control" id="age"
+                      formControlName="age"
+                      [class.is-invalid]="submitted && f['age'].errors"
+                      placeholder="Your age" min="18" max="100">
+                    <div class="invalid-feedback" *ngIf="submitted && f['age'].errors">
+                      <span *ngIf="f['age'].errors['required']">Age is required</span>
+                      <span *ngIf="f['age'].errors['min'] || f['age'].errors['max']">Age must be between 18 and 100</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-4">
+                  <label for="email" class="form-label">Email Address *</label>
+                  <input type="email" class="form-control" id="email"
+                    formControlName="email"
+                    [class.is-invalid]="submitted && f['email'].errors"
+                    placeholder="your.email@example.com">
+                  <div class="invalid-feedback" *ngIf="submitted && f['email'].errors">
+                    <span *ngIf="f['email'].errors['required']">Email is required</span>
+                    <span *ngIf="f['email'].errors['email']">Please enter a valid email</span>
+                  </div>
+                </div>
+
+                <h3 class="mb-4 mt-5">Payment Details</h3>
+
+                <!-- Payment Mode -->
+                <div class="mb-3">
+                  <label for="paymentMode" class="form-label">Payment Mode *</label>
+                  <select class="form-select" id="paymentMode"
+                    formControlName="paymentMode"
+                    [class.is-invalid]="submitted && f['paymentMode'].errors">
+                    <option value="">Select payment mode</option>
+                    <option *ngFor="let mode of paymentModes" [value]="mode">{{ mode }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="submitted && f['paymentMode'].errors">
+                    Payment mode is required
+                  </div>
+                </div>
+
+                <!-- Card Number -->
+                <div class="mb-3">
+                  <label for="cardNumber" class="form-label">Card Number *</label>
+                  <input type="text" class="form-control" id="cardNumber"
+                    formControlName="cardNumber"
+                    [class.is-invalid]="submitted && f['cardNumber'].errors"
+                    placeholder="XXXX-XXXX-XXXX"
+                    (input)="formatCardNumber($event)" maxlength="14">
+                  <small class="form-text text-muted">Format: 1234-5678-9012</small>
+                  <div class="invalid-feedback" *ngIf="submitted && f['cardNumber'].errors">
+                    <span *ngIf="f['cardNumber'].errors['required']">Card number is required</span>
+                    <span *ngIf="f['cardNumber'].errors['pattern']">Card number format: XXXX-XXXX-XXXX</span>
+                  </div>
+                </div>
+
+                <!-- Payment Frequency -->
+                <div class="mb-4">
+                  <label for="paymentFreq" class="form-label">Payment Frequency *</label>
+                  <select class="form-select" id="paymentFreq"
+                    formControlName="paymentFreq"
+                    [class.is-invalid]="submitted && f['paymentFreq'].errors">
+                    <option value="">Select payment frequency</option>
+                    <option *ngFor="let freq of paymentFrequencies" [value]="freq">{{ freq }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="submitted && f['paymentFreq'].errors">
+                    Payment frequency is required
+                  </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+                  <button type="button" class="btn btn-outline-secondary btn-lg"
+                    (click)="cancel()" [disabled]="loading">
+                    <i class="bi bi-x-circle"></i> Cancel
+                  </button>
+                  <button type="submit" class="btn btn-success btn-lg" [disabled]="loading">
+                    <span *ngIf="!loading">
+                      <i class="bi bi-check-circle"></i> Confirm Booking
+                    </span>
+                    <span *ngIf="loading">
+                      <span class="spinner-border spinner-border-sm me-2"></span>
+                      Processing...
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          </div>
+         
+          <!-- Right Column - Summary -->
+          <div class="col-lg-4">
+            <div class="summary-card p-4 rounded shadow-sm bg-white sticky-top">
+              <h3 class="mb-4">Booking Summary</h3>
+              <div class="plan-summary mb-3">
+                <h5 class="text-primary">{{ plan?.planName }}</h5>
+                <p class="text-muted small">{{ plan?.description }}</p>
+              </div>
+              <hr>
+              <div class="summary-details mb-3">
+                <div class="summary-row d-flex justify-content-between">
+                  <span>Base Amount:</span>
+                  <span class="fw-bold">₹{{ plan?.baseAmt }}</span>
+                </div>
+                <div class="summary-row d-flex justify-content-between">
+                  <span>Validity:</span>
+                  <span class="fw-bold">{{ plan?.validity }} days</span>
+                </div>
+                <div class="summary-row d-flex justify-content-between">
+                  <span>Coverage Type:</span>
+                  <span class="fw-bold">Individual</span>
+                </div>
+              </div>
+              <hr>
+              <div class="premium-summary mb-3">
+                <div class="premium-row d-flex justify-content-between">
+                  <span class="premium-label">Your Premium Amount</span>
+                  <span class="premium-amount text-success fw-bold">₹{{ premium }}</span>
+                </div>
+                <p class="small text-muted mt-2 mb-0">
+                  <i class="bi bi-info-circle"></i>
+                  Premium calculated based on your health profile
+                </p>
+              </div>
+              <div class="alert alert-success mt-4">
+                <i class="bi bi-shield-check"></i>
+                <strong>Instant Activation!</strong>
+                <p class="mb-0 small">Your insurance will be active immediately after payment</p>
+              </div>
+              <div class="features-list mt-4">
+                <div class="feature-item mb-2">
+                  <i class="bi bi-check-circle-fill text-success"></i>
+                  <span>No Waiting Period</span>
+                </div>
+                <div class="feature-item mb-2">
+                  <i class="bi bi-check-circle-fill text-success"></i>
+                  <span>24/7 Customer Support</span>
+                </div>
+                <div class="feature-item">
+                  <i class="bi bi-check-circle-fill text-success"></i>
+                  <span>Cashless Hospitalization</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

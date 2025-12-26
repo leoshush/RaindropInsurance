@@ -1,0 +1,123 @@
+.booking-container {
+  min-height: calc(100vh - 56px);
+  background-color: #f8f9fa;
+}
+
+.booking-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  padding: 40px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  padding: 30px;
+  top: 20px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.15);
+}
+
+.form-control.is-invalid, .form-select.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.9rem;
+}
+
+.plan-summary h5 {
+  margin-bottom: 10px;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #dee2e6, transparent);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.premium-summary {
+  background: linear-gradient(135deg, #7b68ee 0%, #5dade2 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.premium-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.premium-label {
+  font-size: 1rem;
+}
+
+.premium-amount {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+
+.feature-item i {
+  font-size: 1.2rem;
+}
+
+.btn-lg {
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+@media (max-width: 991px) {
+  .summary-card {
+    position: static !important;
+    margin-top: 30px;
+  }
+}
+#contain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+h3{
+    text-align: center;
+}

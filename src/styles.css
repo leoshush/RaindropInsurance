@@ -1,0 +1,195 @@
+
+/* ===== Theme Variables ===== */
+:root {
+  --nav-bg: #d2d4d8;           /* primary color */
+  --nav-text: #0a0a0a;
+  --nav-text-muted: rgba(255, 255, 255, 0.85);
+  --nav-active-bg: rgba(255, 255, 255, 0.18);
+  --nav-hover-bg: rgba(255, 255, 255, 0.14);
+  --brand-accent: #ffd54f;
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  --max-width: 1140px;
+  --gap: 18px;
+  --radius: 12px;
+  --hamburger-size: 22px;
+}
+
+/* ===== Navbar Wrapper ===== */
+.app-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--nav-bg);
+  color: var(--nav-text);
+  box-shadow: var(--shadow);
+}
+
+/* ===== Inner Container - logo left, links right ===== */
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: 12px 20px;
+  margin: 0 auto;
+  max-width: var(--max-width);
+}
+
+/* ===== Brand / Logo ===== */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--nav-text);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.brand-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--brand-accent);
+}
+
+.brand-name {
+  font-size: 1.05rem;
+}
+
+/* ===== Links (right side) ===== */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--nav-text-muted);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.12s ease;
+}
+
+.nav-links a:hover {
+  background: var(--nav-hover-bg);
+  color: var(--nav-text);
+  transform: translateY(-1px);
+}
+
+.nav-links a.active {
+  background: var(--nav-active-bg);
+  color: var(--nav-text);
+}
+
+/* ===== Hamburger Toggle (CSS-only) ===== */
+.nav-toggle {
+  display: none; /* hidden checkbox */
+}
+
+.hamburger {
+  --bar-height: 2px;
+  --bar-spacing: 6px;
+
+  position: relative;
+  width: calc(var(--hamburger-size) + 6px);
+  height: calc(var(--hamburger-size) + 6px);
+  cursor: pointer;
+  border-radius: var(--radius);
+  display: none; /* hidden on desktop */
+}
+
+.hamburger:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.hamburger span,
+.hamburger span::before,
+.hamburger span::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--hamburger-size);
+  height: var(--bar-height);
+  background: var(--nav-text);
+  border-radius: 999px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  transform: translate(-50%, -50%);
+  content: '';
+}
+
+.hamburger span::before {
+  transform: translate(-50%, calc(-50% - var(--bar-spacing)));
+}
+
+.hamburger span::after {
+  transform: translate(-50%, calc(-50% + var(--bar-spacing)));
+}
+
+/* Toggle animation */
+.nav-toggle:checked + .hamburger span {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.nav-toggle:checked + .hamburger span::before {
+  opacity: 0;
+}
+.nav-toggle:checked + .hamburger span::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* ===== Responsive: Mobile Menu ===== */
+@media (max-width: 992px) {
+  .hamburger {
+    display: inline-block; /* show hamburger on mobile */
+  }
+
+  /* Stack: Logo + Hamburger on top, menu below */
+  .nav-container {
+    position: relative;
+  }
+
+  .nav-links {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--nav-bg);
+    display: grid;
+    gap: 8px;
+    padding: 12px 20px 16px;
+    border-radius: 0 0 var(--radius) var(--radius);
+    box-shadow: var(--shadow);
+    /* hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s linear;
+  }
+
+  /* Show menu when checked */
+  .nav-toggle:checked ~ .nav-links {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .nav-links a {
+    padding: 10px 12px;
+  }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .nav-links a,
+  .hamburger span,
+  .hamburger span::before,
+  .hamburger span::after,
+  .nav-links {
+    transition: none;
+  }
+}
+

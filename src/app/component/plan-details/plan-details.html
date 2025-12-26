@@ -1,0 +1,203 @@
+<app-navbar></app-navbar>
+<div class="plan-details-container">
+  <div class="container py-5">
+    <!-- Loading State -->
+    <div *ngIf="loading()" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading()" class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ error }}
+      <button class="btn btn-outline-danger ms-3" (click)="goBack()">Go Back</button>
+    </div>
+
+    <!-- Plan Details -->
+    <div *ngIf="plan() && !loading() && questionsCompleted()">
+      <!-- Back Button -->
+    
+      <div class="row">
+        <!-- Left Column - Plan Info -->
+        <div class="col-lg-8">
+          <div class="plan-detail-card">
+            <div class="plan-detail-header">
+              <h1>{{ plan()?.planName }}</h1>
+              <div class="plan-price-tag">
+                <span class="base-label">Base Amount</span>
+                <span class="price">₹{{ plan()?.baseAmt }}</span>
+              </div>
+            </div>
+            
+            <div class="plan-detail-body">
+              <h4 class="mb-3">Plan Description</h4>
+              <p class="lead">{{ plan()?.description }}</p>
+
+              <h4 class="mt-4 mb-3">Plan Features</h4>
+              <div class="features-grid">
+                <div class="feature-box">
+                  <i class="bi bi-calendar-check"></i>
+                  <div>
+                    <strong>Validity Period</strong>
+                    <p>{{ plan()?.validity }} Days</p>
+                  </div>
+                </div>
+                
+
+              <div class="alert alert-info mt-4">
+                <i class="bi bi-info-circle-fill me-2"></i>
+                <strong>Note:</strong> Your final premium will be calculated based on your health profile and personal details.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Action Card -->
+        <div class="col-lg-4">
+          <div class="action-card sticky-top">
+            <h4 class="mb-4">Get Your Quote</h4>
+            
+            <div *ngIf="!questionsCompleted">
+              <p class="text-muted mb-4">Answer a few questions to calculate your personalized premium</p>
+              <button class="btn btn-primary btn-lg w-100" (click)="startQuestionnaire()">
+                <i class="bi bi-calculator"></i> Calculate Premium
+              </button>
+            </div>
+
+            <div *ngIf="questionsCompleted" class="premium-result">
+              <div class="premium-badge">
+                <span class="label">Your Premium</span>
+                <span class="amount">₹{{ calculatedPremium() }}</span>
+                <span class="period">per year</span>
+              </div>
+
+              <div class="premium-breakdown mt-3">
+                <div class="breakdown-item">
+                  <span>Base Amount:</span>
+                  <span>₹{{ plan()?.baseAmt }}</span>
+                </div>
+                <div class="breakdown-item">
+                  <span>Age Factor:</span>
+                  <span>Applied</span>
+                </div>
+                <div class="breakdown-item">
+                  <span>Health Profile:</span>
+                  <span>Assessed</span>
+                </div>
+              </div>
+
+              <button class="btn btn-success btn-lg w-100 mt-4" (click)="proceedToBooking()">
+                <i class="bi bi-check-circle"></i> Proceed to Book
+              </button>
+              
+              <button class="btn btn-outline-secondary w-100 mt-2" (click)="startQuestionnaire()">
+                <i class="bi bi-arrow-clockwise"></i> Recalculate
+              </button>
+            </div>
+
+            <div class="mt-4 pt-4 border-top">
+              <h6 class="mb-3">Need Help?</h6>
+              <p class="small text-muted mb-2"><i class="bi bi-telephone"></i> +91 8050480504</p>
+              <p class="small text-muted"><i class="bi bi-envelope"></i> support@raindropsinsurance.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question Modal -->
+  
+
+
+</div>
+
+<div class="modal-backdrop" *ngIf="isQuestionnaireOpen"></div>
+
+<!-- Centered popup -->
+<div
+  class="modal-root"
+  *ngIf="isQuestionnaireOpen"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="questionnaireTitle"
+  tabindex="-1"
+  (keydown.escape)="closeQuestionnaire()"
+>
+  <div class="modal-window">
+    <div class="modal-header">
+      <h5 id="questionnaireTitle">Question {{ currentQuestion() + 1 }} of {{ questions.length }}</h5>
+      <button class="close-btn" aria-label="Close" (click)="closeQuestionnaire()">×</button>
+    </div>
+
+    <!-- Body: Questions -->
+    <div class="modal-body" *ngIf="!questionsCompleted()">
+      <div class="progress">Step {{ currentQuestion() + 1 }} of {{ questions.length }}</div>
+
+      <label class="question-label">{{ getCurrentQuestion().question }}</label>
+
+      <!-- Number -->
+      <input
+        *ngIf="getCurrentQuestion().type === 'number'"
+        type="number"
+        class="form-input"
+        [attr.placeholder]="getCurrentQuestion().placeholder"
+        [attr.min]="getCurrentQuestion().min"
+        [attr.max]="getCurrentQuestion().max"
+        [(ngModel)]="tempValue"
+        (keyup.enter)="nextQuestion()"
+      />
+
+      <!-- Boolean -->
+      <div class="boolean-group" *ngIf="getCurrentQuestion().type === 'boolean'">
+        <label class="radio">
+          <input type="radio" name="boolAnswer" value="yes" [(ngModel)]="tempValue" />
+          Yes
+        </label>
+        <label class="radio">
+          <input type="radio" name="boolAnswer" value="no" [(ngModel)]="tempValue" />
+          No
+        </label>
+      </div>
+
+      <div class="error" *ngIf="validationError">{{ validationError }}</div>
+    </div>
+
+    <!-- Body: Summary -->
+    <div class="modal-body" *ngIf="questionsCompleted()">
+      <h6 class="mb-2">Summary</h6>
+      <ul class="summary">
+        <li>Age: {{ userHealthData.age }}</li>
+        <li>Earnings: ₹{{ userHealthData.earnings }}</li>
+        <li>Pre-existing conditions: {{ userHealthData.hasPreExistingConditions ? 'Yes' : 'No' }}</li>
+        <li>Smoker: {{ userHealthData.isSmoker ? 'Yes' : 'No' }}</li>
+        <li>Chronic diseases: {{ userHealthData.hasChronicDiseases ? 'Yes' : 'No' }}</li>
+        <li>Exercises regularly: {{ userHealthData.exerciseRegularly ? 'Yes' : 'No' }}</li>
+      </ul>
+
+      <div class="premium-box">
+        <div class="label">Calculated Premium</div>
+        <div class="value">₹{{ calculatedPremium() }}</div>
+      </div>
+    </div>
+
+    <!-- Footer: actions -->
+    <div class="modal-footer" *ngIf="!questionsCompleted()">
+      <button class="btn secondary" (click)="previousQuestion()" [disabled]="currentQuestion() === 0">Previous</button>
+      <button
+        class="btn primary"
+        (click)="nextQuestion()"
+        [disabled]="getCurrentQuestion().type === 'number' ? !tempValue : (tempValue !== 'yes' && tempValue !== 'no')"
+      >
+        {{ currentQuestion() < questions.length - 1 ? 'Next' : 'Calculate' }}
+      </button>
+    </div>
+
+    <div class="modal-footer" *ngIf="questionsCompleted()">
+      <button class="btn secondary" (click)="closeQuestionnaire()">Close</button>
+      <button class="btn primary" (click)="proceedToBooking()">Proceed to Booking</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+
+<nav class="app-navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <!-- Brand / Logo on the left -->
+    <a class="brand" routerLink="/">
+      
+      <span class="brand-name">Raindrops Insurance</span>
+    </a>
+
+    <!-- Hamburger (CSS-only toggle for mobile) -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="hamburger" aria-label="Toggle navigation" aria-controls="primary-menu">
+      <span></span>
+    </label>
+
+    <!-- Links on the right -->
+    <div class="nav-links" id="primary-menu">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+      <a routerLink="/plans" routerLinkActive="active">Plans</a>
+    </div>
+  </div>
+</nav>

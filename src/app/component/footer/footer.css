@@ -1,0 +1,129 @@
+.footer {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  margin-top: 80px;
+}
+
+/* ---------- TOP SECTION ---------- */
+.footer-top {
+  padding: 50px 0 40px;
+}
+
+.footer-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: white;
+  text-align: left;
+}
+
+.footer-heading i {
+  margin-right: 8px;
+  color: #ffd700;
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footer-services {
+  text-align: left;
+  margin-top: 10px;
+}
+
+/* ---------- LINKS ---------- */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links.horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.footer-links.horizontal li {
+  display: inline-block;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: #ffd700;
+  transform: translateY(-2px);
+}
+
+/* ---------- BOTTOM SECTION ---------- */
+.footer-bottom {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 18px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-bottom p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+}
+
+.footer-bottom-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.footer-bottom-links a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.footer-bottom-links a:hover {
+  color: #ffd700;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .footer-top {
+    text-align: center;
+    padding: 40px 0 20px;
+  }
+
+  .footer-heading {
+    text-align: center;
+  }
+
+  .footer-text {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .footer-services {
+    text-align: center;
+  }
+
+  .footer-links.horizontal {
+    justify-content: center; 
+    gap: 12px;
+  }
+
+  .footer-bottom-links {
+    justify-content: center;
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,151 @@
+<div class="success-container">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="success-card text-center">
+          <!-- Success Animation -->
+          <div class="success-animation">
+            <div class="checkmark-circle">
+              <i class="bi bi-check-lg"></i>
+            </div>
+          </div>
+
+          <!-- Success Message -->
+          <h1 class="display-4 fw-bold text-success mb-3">Booking Successful!</h1>
+          <p class="lead mb-4">Thank you for choosing Raindrops Insurance</p>
+          <p class="text-muted mb-5">Your insurance policy has been successfully activated. A confirmation email has been sent to your registered email address.</p>
+
+          <!-- Booking Details -->
+          <div class="booking-details" *ngIf="booking">
+            <h3 class="mb-4">Booking Details</h3>
+
+            <div class="row g-4">
+              <!-- Personal Info -->
+              <div class="col-md-6">
+                <div class="detail-card">
+                  <h5 class="card-title">
+                    <i class="bi bi-person-fill text-primary"></i>
+                    Personal Information
+                  </h5>
+                  <div class="detail-row">
+                    <span class="label">Name:</span>
+                    <span class="value">{{ booking.name }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="label">Age:</span>
+                    <span class="value">{{ booking.age }} years</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="label">City:</span>
+                    <span class="value">{{ booking.city }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="label">Phone:</span>
+                    <span class="value">{{ booking.phone }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="label">Email:</span>
+                    <span class="value">{{ booking.email }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Plan Info -->
+              <div class="col-md-6">
+                <div class="detail-card">
+                  <h5 class="card-title">
+                    <i class="bi bi-shield-fill-check text-primary"></i>
+                    Plan Information
+                  </h5>
+                  <div class="detail-row">
+                    <span class="label">Plan:</span>
+                    <span class="value">{{ booking.planName }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="label">Plan ID:</span>
+                    <span class="value">#{{ booking.planId }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="label">Validity:</span>
+                    <span class="value">{{ booking.validity }} days</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="label">Booking ID:</span>
+                    <span class="value">#{{ booking.id }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Payment Info -->
+              <div class="col-12">
+                <div class="detail-card payment-card">
+                  <h5 class="card-title">
+                    <i class="bi bi-credit-card-fill text-primary"></i>
+                    Payment Information
+                  </h5>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="detail-row">
+                        <span class="label">Premium Amount:</span>
+                        <span class="value premium-value">₹{{ booking.premiumAmt }}</span>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="detail-row">
+                        <span class="label">Payment Mode:</span>
+                        <span class="value">{{ booking.paymentMode }}</span>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="detail-row">
+                        <span class="label">Payment Frequency:</span>
+                        <span class="value">{{ booking.paymentFreq }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="detail-row mt-3">
+                    <span class="label">Card Number:</span>
+                    <span class="value">**** **** {{ booking.cardNumber.slice(-4) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Important Information -->
+          <div class="alert alert-info mt-5">
+            <h5><i class="bi bi-info-circle-fill"></i> Important Information</h5>
+            <ul class="text-start mb-0">
+              <li>Your policy is active immediately with no waiting period</li>
+              <li>You will receive a policy document via email within 24 hours</li>
+              <li>For any queries, contact our 24/7 customer support</li>
+              <li>Keep your booking ID for future reference</li>
+            </ul>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons mt-5">
+            <button class="btn btn-primary btn-lg me-3" (click)="goHome()">
+              <i class="bi bi-house-fill"></i> Go to Home
+            </button>
+            <button class="btn btn-outline-primary btn-lg me-3" (click)="viewPlans()">
+              <i class="bi bi-search"></i> View More Plans
+            </button>
+            <button class="btn btn-outline-secondary btn-lg" (click)="printConfirmation()">
+              <i class="bi bi-printer-fill"></i> Print
+            </button>
+          </div>          
+
+          <!-- Contact Support -->
+          <div class="mt-5 pt-4 border-top">
+            <p class="mb-2"><strong>Need Help?</strong></p>
+            <p class="text-muted">
+              <i class="bi bi-telephone-fill"></i> +91 8050480504                                                  | 
+              <i class="bi bi-envelope-fill"></i> support@raindropsinsurance.com
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
